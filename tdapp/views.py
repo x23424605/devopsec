@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm  
 from django.contrib.auth.models import User
 from django.contrib import messages
+from .forms import BookingForm
+
 
 
 # Create your views here.
@@ -65,3 +67,17 @@ def dashboard(request):
 
 def travel(request):
     return render(request, "td/travel.html")
+
+def room_booking(request, country):
+    if request.method == "POST":
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(request, 'td/booking_success', {'form': form, 'country':country})  # Redirect after success
+    else:
+        form = BookingForm()
+
+    return render(request, "td/booking.html", {"form": form})
+
+def success_booking(request):
+    return render(request, "td/booking_success.html")

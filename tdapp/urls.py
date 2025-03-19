@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import login_view, signup, logout_view
+from .views import login_view, signup, logout_view, room_booking, success_booking
 from . import views
 from django.contrib.auth.views import LoginView
 
@@ -12,6 +12,6 @@ urlpatterns=[
         path("logout/", logout_view, name="logout"),
         path('dashboard/', views.dashboard, name='dashboard'),
         path('travel/', views.travel, name='travel'),
-
-        
+        path("book/<str:country>/", room_booking, name="book_room"),
+        path("success/", success_booking, name="booking_success"),        
 ]

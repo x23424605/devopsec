@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% include "td/dashboard.html" %}
+
+<style>
+    .booking-form {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        max-width: 400px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        width: 45%;
+        float: left; 
+    }
+
+    .booking-form label {
+        display: block;
+        margin: 5px 0 5px;
+    }
+
+    .booking-form input, .booking-form select {
+        width: 100%;
+        padding: 5px;
+        margin-bottom: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .booking-form button {
+        background-color: #28a745;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .booking-form button:hover {
+        background-color: #218838;
+    }
+
+    /* Back Button Styling */
+    .back-button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .back-button:hover {
+        background-color: #0056b3;
+    }
+
+    /* My Booking Button */
+    .my-booking-btn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #17a2b8;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .my-booking-btn:hover {
+        background-color: #138496;
+    }
+
+</style>
+
+<h2>Book Your Destination</h2>
+<h3 style="margin-top: 25px;">Destination: {{country}}</h3>
+
+<form method="post" class="booking-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button><br><br>
+    <button onclick="document.location.href='/dashboard'">Back</button>
+</form>
+
+<!-- JavaScript to Set Min Date -->
+<script>
+    window.onload = function() {
+        // Get today's date in the format yyyy-mm-dd
+        var today = new Date().toISOString().split('T')[0];
+
+        // Get the check_in and check_out date input fields
+        var checkInField = document.querySelector('input[name="check_in"]');
+        var checkOutField = document.querySelector('input[name="check_out"]');
+
+        // Set the minimum date for both fields to today's date
+        checkInField.setAttribute('min', today);
+        checkOutField.setAttribute('min', today);
+    };
+</script>
+
+{% endblock %}
