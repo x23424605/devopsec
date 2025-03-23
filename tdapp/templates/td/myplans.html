@@ -1,22 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
-
 <h2>My Plans</h2>
 
-{% if bookings %}
-    <ul>
+<table border="1">
+    <tr>
+        <th>Destination</th>
+        <th>Check-in</th>
+        <th>Check-out</th>
+        <th>Actions</th>
+    </tr>
     {% for booking in bookings %}
-        <li>
-            <strong>{{ booking.country }}</strong><br>
-            From: <strong>{{ booking.check_in }}</strong><br>
-            To: <strong>{{ booking.check_out }}</strong><br>
-            Guests: <strong>{{ booking.guests }}</strong><br>
-            <a href="{% url 'success' booking.id %}">View Details</a>
-        </li>
+    <tr>
+        <td>{{ booking.country }}</td>
+        <td>{{ booking.check_in }}</td>
+        <td>{{ booking.check_out }}</td>
+        <td>
+            <a href="{% url 'update_booking' booking.id %}" class="btn btn-warning">Update</a>
+            <form action="{% url 'delete_booking' booking.id %}" method="POST" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this booking?')">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="4">No confirmed bookings found.</td>
+    </tr>
     {% endfor %}
-    </ul>
-{% else %}
-    <p>You have no upcoming bookings.</p>
-{% endif %}
+</table>
 
 {% endblock %}

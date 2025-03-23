@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils import timezone 
-
+from django.contrib.auth.models import User  
 
 # Create your models here.
 
@@ -10,6 +10,7 @@ def validate_date(value):
         raise ValidationError("Booking date cannot be in the past.")
 
 class Booking(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Link booking to a user
     name = models.CharField(max_length=100)
     email = models.EmailField()
     phone = models.CharField(max_length=15)

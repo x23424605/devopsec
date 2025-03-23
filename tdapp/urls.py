@@ -14,5 +14,5 @@ urlpatterns=[
         # path('travel/', views.travel, name='travel'),
         path("book/<str:country>/", views.room_booking, name="book_room"),
         path("success/<int:booking_id>/", views.success, name="success"),
-        path("myplans/", views.my_plans, name="myplans"),
+        path("myplans/", views.myplans, name="myplans"),
 ]

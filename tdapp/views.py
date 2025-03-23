@@ -85,8 +85,11 @@ def room_booking(request, country):
     
 def success(request, booking_id):
     booking = Booking.objects.get(id=booking_id)
-    print(f"Booking details: {booking}")  # Print the booking details to the console
-    return render(request, "td/success.html", {"booking": booking})
+    booking.user = request.user  # Associate the booking with the logged-in user
+    booking.status = "Confirmed"
+    booking.save()
+    return render(request, 'confirmation.html', {'booking': booking})
 
-def my_plans(request):
-    return render(request, "td/myplans.html")
+def myplans(request):
+    bookings = Booking.objects.filter(user=request.user, status="Confirmed")
+    return render(request, 'myplans.html', {'bookings': bookings})

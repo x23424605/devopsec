@@ -46,7 +46,7 @@
         <p>Your booking for <strong>{{ booking.country }}</strong> from <strong>{{ booking.check_in }}</strong> to <strong>{{ booking.check_out }}</strong> has been successfully confirmed.</p>
         <p>We have sent a confirmation email to <strong>{{ booking.email }}</strong>.</p>
         <a href="{% url 'dashboard' %}" class="home-button">Back to Dashboard</a>
-        <button class="my-bookings-button" onclick="document.location.href='/myplans'">My Plans</button>
+        <button class="my-bookings-button" onclick="document.location.href='{% url 'My Plans' %}'">My Plans</button>
     </div>
 
 {% endblock %}
