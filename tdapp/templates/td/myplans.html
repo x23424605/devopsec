@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>My Plans</h2>
+
+{% if bookings %}
+    <ul>
+    {% for booking in bookings %}
+        <li>
+            <strong>{{ booking.country }}</strong><br>
+            From: <strong>{{ booking.check_in }}</strong><br>
+            To: <strong>{{ booking.check_out }}</strong><br>
+            Guests: <strong>{{ booking.guests }}</strong><br>
+            <a href="{% url 'success' booking.id %}">View Details</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>You have no upcoming bookings.</p>
+{% endif %}
+
+{% endblock %}

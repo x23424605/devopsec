@@ -4,6 +4,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import BookingForm
+from .models import Booking
+from django.urls import reverse
+
+
 
 
 
@@ -65,19 +69,24 @@ def signup(request):
 def dashboard(request):
     return render(request, 'td/dashboard.html')
 
-def travel(request):
-    return render(request, "td/travel.html")
+# def travel(request):
+#     return render(request, "td/travel.html")
 
 def room_booking(request, country):
     if request.method == "POST":
         form = BookingForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect(request, 'td/booking_success', {'form': form, 'country':country})  # Redirect after success
+            booking = form.save()
+            return redirect(reverse('success', kwargs={'booking_id': booking.id})) # passing booking id to success page
     else:
         form = BookingForm()
 
-    return render(request, "td/booking.html", {"form": form})
+    return render(request, "td/booking.html", {"form": form, "country": country})
+    
+def success(request, booking_id):
+    booking = Booking.objects.get(id=booking_id)
+    print(f"Booking details: {booking}")  # Print the booking details to the console
+    return render(request, "td/success.html", {"booking": booking})
 
-def success_booking(request):
-    return render(request, "td/booking_success.html")
+def my_plans(request):
+    return render(request, "td/myplans.html")
