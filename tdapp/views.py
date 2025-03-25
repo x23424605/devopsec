@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm  
 from django.contrib.auth.models import User
@@ -86,10 +87,30 @@ def room_booking(request, country):
 def success(request, booking_id):
     booking = Booking.objects.get(id=booking_id)
     booking.user = request.user  # Associate the booking with the logged-in user
-    booking.status = "Confirmed"
+    booking.status = "Confirmed"  # Now this works because the status field is in the model
     booking.save()
-    return render(request, 'confirmation.html', {'booking': booking})
+    return render(request, 'td/success.html', {'booking': booking})
 
 def myplans(request):
-    bookings = Booking.objects.filter(user=request.user, status="Confirmed")
-    return render(request, 'myplans.html', {'bookings': bookings})
+    bookings = Booking.objects.filter(user=request.user) 
+    return render(request, 'td/myplans.html', {'bookings': bookings})
+
+def updatebooking(request, id):
+    booking = get_object_or_404(Booking, id=id)
+    if request.method == 'POST':
+        form = BookingForm(request.POST, instance=booking)
+        if form.is_valid():
+            form.save()
+            return redirect('myplans')  # Redirect to the list of bookings
+    else:
+        form = BookingForm(instance=booking)
+    
+    return render(request, 'td/update.html', {'form': form})
+
+# Delete View
+def deletebooking(request, id):
+    booking = get_object_or_404(Booking, id=id)
+    if request.method == 'POST':
+        booking.delete()
+        return redirect('myplans')  # Redirect to the list of bookings
+    return render(request, 'td/deletebooking.html', {'booking': booking})

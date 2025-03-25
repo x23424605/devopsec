@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Update Booking</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a href="{% url 'myplans' %}" class="btn btn-secondary">Cancel</a>
+</form>
+
+{% endblock %}

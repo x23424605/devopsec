@@ -15,4 +15,6 @@ urlpatterns=[
         path("book/<str:country>/", views.room_booking, name="book_room"),
         path("success/<int:booking_id>/", views.success, name="success"),
         path("myplans/", views.myplans, name="myplans"),
+        path('booking/update/<int:id>/', views.updatebooking, name='update'),
+        path('booking/delete/<int:id>/', views.deletebooking, name='delete'),
 ]

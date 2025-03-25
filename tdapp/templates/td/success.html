@@ -23,8 +23,11 @@
         margin-top: 10px;
     }
 
-    .home-button {
+    .button-container {
         margin-top: 20px;
+    }
+
+    .home-button, .my-bookings-button {
         padding: 10px 20px;
         background-color: #007bff;
         color: white;
@@ -33,20 +36,26 @@
         cursor: pointer;
         text-decoration: none;
         display: inline-block;
+        margin: 5px;
     }
 
-    .home-button:hover {
+    .home-button:hover, .my-bookings-button:hover {
         background-color: #0056b3;
     }
 </style>
 
 <div class="confirmation-container">
-        <h2>Booking Confirmed! ✅</h2>
-        <p>Thank you, <strong>{{ booking.name }}</strong>!</p>
-        <p>Your booking for <strong>{{ booking.country }}</strong> from <strong>{{ booking.check_in }}</strong> to <strong>{{ booking.check_out }}</strong> has been successfully confirmed.</p>
-        <p>We have sent a confirmation email to <strong>{{ booking.email }}</strong>.</p>
+    <h2>Booking Confirmed! ✅</h2>
+    <p>Thank you, <strong>{{ booking.name }}</strong>!</p>
+    <p>Your booking for <strong>{{ booking.country }}</strong> from 
+        <strong>{{ booking.check_in }}</strong> to 
+        <strong>{{ booking.check_out }}</strong> has been successfully confirmed.</p>
+    <p>We have sent a confirmation email to <strong>{{ booking.email }}</strong>.</p>
+    
+    <div class="button-container">
         <a href="{% url 'dashboard' %}" class="home-button">Back to Dashboard</a>
-        <button class="my-bookings-button" onclick="document.location.href='{% url 'My Plans' %}'">My Plans</button>
+        <a href="{% url 'myplans' %}" class="my-bookings-button">My Plans</a>
     </div>
+</div>
 
 {% endblock %}

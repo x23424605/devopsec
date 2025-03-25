@@ -10,13 +10,14 @@ def validate_date(value):
         raise ValidationError("Booking date cannot be in the past.")
 
 class Booking(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Link booking to a user
+    user = models.ForeignKey(User, on_delete=models.CASCADE,  null=True, blank=True)  # Link booking to a user
     name = models.CharField(max_length=100)
     email = models.EmailField()
     phone = models.CharField(max_length=15)
     check_in = models.DateField(validators=[validate_date])
     check_out = models.DateField(validators=[validate_date])
     guests = models.PositiveIntegerField()
+
 
     def clean(self):
         """Custom validation for check-in and check-out dates."""
