@@ -84,6 +84,15 @@
         font-size: 16px;
         font-weight: bold;
     }
+
+    .logout-btn {
+        text-decoration: none;
+        color: white;
+        background-color: red;
+        padding: 8px 12px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
 </style>
 
 <p id="welcomeMessage" style="display: none;">🎉 Welcome, {{ user.username }}! Have a great time.</p> 
@@ -96,7 +105,7 @@
         <a href="{% url 'dashboard' %}" class="active">Destinations</a>
         <a href="{% url 'myplans' %}">My Plans</a>
     </div>
-    <a href="{% url 'logout' %}" class="btn btn-danger logout-btn">Logout</a>
+    <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
 </div>
 
 <div class="container">
