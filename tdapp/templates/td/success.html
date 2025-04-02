@@ -47,11 +47,11 @@
 <div class="confirmation-container">
     <h2>Booking Confirmed! ✅</h2>
     <p>Thank you, <strong>{{ booking.name }}</strong>!</p>
-    <p>Your booking for <strong>{{ booking.country }}</strong> from 
+    <p>Your booking <strong>{{ booking.country }}</strong> from 
         <strong>{{ booking.check_in }}</strong> to 
         <strong>{{ booking.check_out }}</strong> has been successfully confirmed.</p>
-    <p>We have sent a confirmation email to <strong>{{ booking.email }}</strong>.</p>
-    
+
+        
     <div class="button-container">
         <a href="{% url 'dashboard' %}" class="home-button">Back to Dashboard</a>
         <a href="{% url 'myplans' %}" class="my-bookings-button">My Plans</a>
