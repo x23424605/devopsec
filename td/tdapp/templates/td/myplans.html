@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+    h1 {
+        text-align: center;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+    }
+
+    .logout-btn {
+        text-decoration: none;
+        color: white;
+        background-color: red;
+        padding: 8px 12px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    .nav {
+        display: flex;
+        align-items: center;
+    }
+
+    .nav a {
+        margin: 0 15px;
+        text-decoration: none;
+        color: #333;
+        font-size: 16px;
+    }
+
+    .nav a.active {
+        color: red;
+        font-weight: bold;
+    }
+
+    table {
+        width: 80%;
+        margin: 30px auto;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid black;
+    }
+
+    .btn {
+        padding: 5px 10px;
+        text-decoration: none;
+        color: white;
+        border-radius: 5px;
+    }
+
+    .btn-update {
+        background-color: orange;
+    }
+
+    .btn-delete {
+        background-color: red;
+    }
+</style>
+
+<div class="header">
+    <div class="nav">
+        <a href="{% url 'dashboard' %}">Destinations</a>
+        <a href="{% url 'myplans' %}" class="active">My Plans</a>
+    </div>
+    <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+</div>
+
+<h2 style="text-align: center;">My Plans</h2>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Check-in</th>
+        <th>Check-out</th>
+        <th>Guests</th>
+        <th>Actions</th>
+    </tr>
+    {% for booking in bookings %}
+    <tr>
+        <td>{{ booking.name }}</td>
+        <td>{{ booking.check_in }}</td>
+        <td>{{ booking.check_out }}</td>
+        <td>{{ booking.guests }}</td>
+        <td>
+            <a href="{% url 'update' booking.id %}" class="btn btn-update">Update</a>
+            <form action="{% url 'delete' booking.id %}" method="POST" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this booking?')">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">No confirmed bookings found.</td>  {# Changed colspan to 5 for full table width #}
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
