@@ -6,11 +6,6 @@ from django.contrib import messages
 from .forms import BookingForm
 from .models import Booking
 from django.urls import reverse
-
-
-
-
-
 # Create your views here.
 def login_view(request):
     if request.method == 'POST':
@@ -73,7 +68,8 @@ def room_booking(request, country):
         form = BookingForm(request.POST)
         if form.is_valid():
             booking = form.save()
-            return redirect(reverse('success', kwargs={'booking_id': booking.id})) # passing booking id to success page
+            redirect_url = reverse('success', kwargs={'booking_id': booking.id})
+            return redirect(redirect_url) # passing booking id to success page
     else:
         form = BookingForm()
 
