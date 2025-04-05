@@ -32,7 +32,7 @@ phases:
       - echo "Waiting for SonarCloud automatic analysis to complete..."
       - sleep 10  # Adjust based on expected time for analysis completion
       - echo "Checking Quality Gate status..."
-      - sonar-scanner -X  -Dsonar.projectKey=$Project -Dsonar.organization=$Organization -Dsonar.host.url=$HOST -Dsonar.token=$LOGIN -Dsonar.exclusions=**/migrations/**,**/tests/**,**/staticfiles/**,**/venv/**,**/scripts/** -Dsonar.python.version=3.12 -Dsonar.scm.disabled=true 
+     # - sonar-scanner -X  -Dsonar.projectKey=$Project -Dsonar.organization=$Organization -Dsonar.host.url=$HOST -Dsonar.token=$LOGIN -Dsonar.exclusions=**/migrations/**,**/tests/**,**/staticfiles/**,**/venv/**,**/scripts/** -Dsonar.python.version=3.12 -Dsonar.scm.disabled=true 
       - curl -u "$LOGIN:" "$HOST/api/qualitygates/project_status?projectKey=$Project" > result.json
       - cat result.json
       - |
