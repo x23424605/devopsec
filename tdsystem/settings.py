@@ -127,4 +127,4 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS=['https://ff2c89b5cd734989a80fedfb237a4dd7.vfs.cloud9.eu-west-1.amazonaws.com/']
+CSRF_TRUSTED_ORIGINS=['https://ff2c89b5cd734989a80fedfb237a4dd7.vfs.cloud9.eu-west-1.amazonaws.com']

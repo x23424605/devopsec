@@ -1,89 +1,160 @@
 {% extends "base.html" %}
 {% load static %}
- 
 {% block content %}
- 
-<style>
-    .booking-form {
-        margin-top: 150; /* Moves the form to the top */
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        max-width: 400px;
-        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        margin-left: auto;
-        margin-right: auto;
-        position: relative;
-        margin-top: -70px;
-    }
-    
-    .booking-form label {
-        display: block;
-        margin: 5px 0 5px;
-    }
- 
-    .booking-form input, .booking-form select {
-        width: 100%;
-        padding: 5px;
-        margin-bottom: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
- 
-    .booking-form button {
-        background-color: #28a745;
-        color: white;
-        padding: 10px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        width: 100%;
-    }
- 
-    .booking-form button:hover {
-        background-color: #218838;
-    }
- 
-    /* Back Button Styling */
-    .back-button {
-        margin-top: 10px;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        width: 100%;
-    }
- 
-    .back-button:hover {
-        background-color: #0056b3;
-    }
- 
-</style>
-<h2>Book Your Destination {{ country }}</h2>
-<h3 style="margin-top: 25px;">Destination: {{country}}</h3>
-<!-- Booking Form -->
-<form method="post" class="booking-form">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button><br><br>
-    <button type="button" onclick="document.location.href='/dashboard'" class="back-button">Back</button>
-</form>
- 
-<!-- JavaScript to Set Min Date -->
-<script>
-    window.onload = function() {
 
-        var today = new Date().toISOString().split('T')[0];
- 
-        var checkInField = document.querySelector('input[name="check_in"]');
-        var checkOutField = document.querySelector('input[name="check_out"]');
- 
-        checkInField.setAttribute('min', today);
-        checkOutField.setAttribute('min', today);
+<style>
+    h1 {
+        text-align: center;
+    }
+
+    .container {
+        display: flex;
+        gap: 30px;
+        justify-content: center;
+        margin-top: 50px;
+    }
+
+    .card {
+        position: relative;
+        width: 390px;
+        height: 200px;
+        color: white;
+        font-family: Arial, sans-serif;
+        border-radius: 10px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.3s;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .logout-btn {
+        position: absolute;
+        top: 10px; 
+        right: 20px;
+        z-index: 1001; 
+    }
+
+    .nav {
+        display: flex;
+        align-items: center;
+    }
+
+    .nav a {
+        margin: 0 10px;
+        text-decoration: none;
+        color: #333;
+        font-size: 16px;
+    }
+
+    .nav a.active {
+        color: red;
+        font-weight: bold;
+    }
+
+    .overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .tag {
+        background-color: #4CAF50;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+
+    .title {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .logout-btn {
+        text-decoration: none;
+        color: white;
+        background-color: red;
+        padding: 8px 12px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+</style>
+
+<p id="welcomeMessage" style="display: none;">🎉 Welcome, {{ user.username }}! Have a great time.</p> 
+
+<div class="header">
+    <div class="logo">
+        <h1>Your <span style="color: red;">Destinations</span> <span style="color: green;">Bucket list</span></h1>
+    </div>
+    <div class="nav">
+        <a href="{% url 'dashboard' %}" class="active">Destinations</a>
+        <a href="{% url 'myplans' %}">My Plans</a>
+    </div>
+    <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+</div>
+
+<div class="container">
+    <!-- Book Room for Venice, open in a new tab -->
+    <a href="{% url 'book_room' country='Venice' %}" class="card">
+        <img src="{% static 'images/venice.jpg' %}" alt="Venice, Italy">
+        <div class="overlay">
+            <div class="tag">EUROPE</div>
+            <div class="title">Where boats replace cars, Venice</div>
+        </div>
+    </a>
+
+    <!-- Book Room for Dubai, open in a new tab -->
+    <a href="{% url 'book_room' country='Dubai' %}" class="card">
+        <img src="{% static 'images/dubai.jpg' %}" alt="Dubai">
+        <div class="overlay">
+            <div class="tag">Middle East</div>
+            <div class="title">Glittering nights and luxe days, Dubai</div>
+        </div>
+    </a>
+
+    <!-- Book Room for Singapore, open in a new tab -->
+    <a href="{% url 'book_room' country='Singapore' %}" class="card">
+        <img src="{% static 'images/singapore_.jpg' %}" alt="Singapore">
+        <div class="overlay">
+            <div class="tag">ASIA</div>
+            <div class="title">The Best of Singapore</div>
+        </div>
+    </a>
+</div>
+
+<script>
+    window.onload = function () {
+        var welcomeMessage = document.getElementById('welcomeMessage');
+
+        // Check if the message has already been displayed in this session
+        if (!sessionStorage.getItem("welcomeDisplayed")) {
+            if (welcomeMessage) {
+                welcomeMessage.style.display = 'block'; 
+                setTimeout(function () {
+                    welcomeMessage.style.display = 'none'; 
+                }, 10000);
+            }
+
+            // session storage flag so first time it show message and then it won't show again
+            sessionStorage.setItem("welcomeDisplayed", "true");
+        }
     };
 </script>
- 
+
+
 {% endblock %}
