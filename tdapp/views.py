@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm  
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import BookingForm
 from .models import Booking
 from django.urls import reverse
+
 # Create your views here.
 def login_view(request):
     if request.method == 'POST':
