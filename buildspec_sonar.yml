@@ -4,7 +4,7 @@ env:
     LOGIN: venkadesh_sonar:LOGIN
     HOST: venkadesh_sonar:HOST
     Organization: venkadesh_sonar:Organization
-    Project: venkadesh_sonar:Project  # SonarCloud Project Key
+    Project: venkadesh_sonar:Project
 phases:
   install:
     runtime-versions:
@@ -17,7 +17,6 @@ phases:
       - source venv/bin/activate
       - pip install --upgrade pip
       - pip install -r requirements.txt
-      # Download and set up SonarScanner
       - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
       - unzip sonar-scanner-cli-5.0.1.3006-linux.zip
       - chmod +x sonar-scanner-5.0.1.3006-linux/bin/*
@@ -26,18 +25,14 @@ phases:
     commands:
       - python --version
       - java -version
-      - sonar-scanner --version  # Make sure sonar-scanner is available
+      - sonar-scanner --version
   build:
     commands:
-      - echo "Running SonarCloud analysis..."
-      - sonar-scanner -Dsonar.projectKey=$Project -Dsonar.organization=$Organization -Dsonar.host.url=$HOST  # Run the SonarCloud scan
       - echo "Waiting for SonarCloud automatic analysis to complete..."
       - sleep 10  # Adjust based on expected time for analysis completion
       - echo "Checking Quality Gate status..."
-      # Make sure $LOGIN, $HOST, and $Project are defined and valid
       - curl -u "$LOGIN:" "$HOST/api/qualitygates/project_status?projectKey=$Project" > result.json
       - cat result.json
-      # Check if the Quality Gate passed
       - |
         if [ "$(jq -r '.projectStatus.status' result.json)" = "ERROR" ]; then
           echo "❌ Quality Gate failed"
