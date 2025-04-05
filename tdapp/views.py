@@ -63,14 +63,10 @@ def signup(request):
 
     return render(request, "td/signup.html")
 
-# def register(request):
-#     return render(request, 'td/signup.html')
 
 def dashboard(request):
     return render(request, 'td/dashboard.html')
 
-# def travel(request):
-#     return render(request, "td/travel.html")
 
 def room_booking(request, country):
     if request.method == "POST":
@@ -86,7 +82,7 @@ def room_booking(request, country):
 def success(request, booking_id):
     booking = Booking.objects.get(id=booking_id)
     booking.user = request.user  # Associate the booking with the logged-in user
-    booking.status = "Confirmed"  # Now this works because the status field is in the model
+    booking.status = "Confirmed"  
     booking.save()
     return render(request, 'td/success.html', {'booking': booking})
 
