@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import login_view, signup, logout_view, room_booking, success
+from .views import login_view, logout_view
 from . import views
 from django.contrib.auth.views import LoginView
 
