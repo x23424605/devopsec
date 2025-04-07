@@ -8,6 +8,7 @@ from .models import Booking
 
 # Create your views here.
 def login_view(request):
+    """Handle user login functionality.""" 
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -24,11 +25,13 @@ def login_view(request):
     return render(request, 'td/login.html')
 
 def logout_view(request):
+    """Logged out and user redirect to Login page."""
     logout(request)
     messages.success(request, "You have been logged out successfully!")
     return redirect("login")
 
 def signup(request):
+    """New User to signup."""
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
@@ -58,10 +61,12 @@ def signup(request):
 
 
 def dashboard(request):
+    """Redirect to application dashboard."""
     return render(request, 'td/dashboard.html')
 
 
 def room_booking(request, country):
+    """Destination booking."""
     if request.method == "POST":
         form = BookingForm(request.POST)
         if form.is_valid():
@@ -74,6 +79,7 @@ def room_booking(request, country):
     return render(request, "td/booking.html", {"form": form, "country": country})
     
 def success(request, booking_id):
+    """Booking confirmed and show confirmation."""
     booking = Booking.objects.get(id=booking_id)
     booking.user = request.user  # Associate the booking with the logged-in user
     booking.status = "Confirmed"  
@@ -81,10 +87,12 @@ def success(request, booking_id):
     return render(request, 'td/success.html', {'booking': booking})
 
 def myplans(request):
+    """Display the confirmed bookings details."""
     bookings = Booking.objects.filter(user=request.user) 
     return render(request, 'td/myplans.html', {'bookings': bookings})
 
 def updatebooking(request, id):
+    """Allow users to update booking."""
     booking = get_object_or_404(Booking, id=id)
     if request.method == 'POST':
         form = BookingForm(request.POST, instance=booking)
@@ -98,6 +106,7 @@ def updatebooking(request, id):
 
 # Delete View
 def deletebooking(request, id):
+    """Allow users to delete booking."""
     booking = get_object_or_404(Booking, id=id)
     if request.method == 'POST':
         booking.delete()
